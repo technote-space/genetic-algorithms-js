@@ -15,8 +15,6 @@ Genetic Algorithms Library
 <summary>Details</summary>
 
 - [Setup](#setup)
-  - [yarn](#yarn)
-  - [npm](#npm)
 - [Author](#author)
 
 </details>
