@@ -22,6 +22,10 @@ export abstract class ChromosomeBase implements IChromosome {
     return this.genes[index];
   }
 
+  public setGene(index: number, gene: Gene): void {
+    this.genes[index] = gene;
+  }
+
   public abstract generateGene(index: number): Gene;
 
   public abstract createNew(): ChromosomeBase;
