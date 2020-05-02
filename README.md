@@ -22,7 +22,7 @@ Genetic Algorithms Library
 </details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Setup
+## Install
 ```shell script
 yarn add @technote-space/genetic-algorithms-js
 ```
