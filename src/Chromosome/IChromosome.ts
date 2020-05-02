@@ -7,6 +7,8 @@ export interface IChromosome {
 
   getGene(index: number): Gene;
 
+  setGene(index: number, gene: Gene): void;
+
   generateGene(index: number): Gene;
 
   createNew(): IChromosome;
