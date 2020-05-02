@@ -5,7 +5,7 @@ export abstract class ChromosomeBase implements IChromosome {
   // eslint-disable-next-line no-magic-numbers
   public fitness = 0;
 
-  protected constructor(private _length: number) {
+  protected constructor(private readonly _length: number) {
     // eslint-disable-next-line no-magic-numbers
     if (_length < 2) {
       throw new Error('Too short.');

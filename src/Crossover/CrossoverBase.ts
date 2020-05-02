@@ -1,7 +1,7 @@
 import {IChromosome, ICrossover} from '..';
 
 export abstract class CrossoverBase implements ICrossover {
-  protected constructor(protected _parentsNumber: number, protected _childrenNumber: number) {
+  protected constructor(protected readonly _parentsNumber: number, protected readonly _childrenNumber: number) {
   }
 
   get parentsNumber(): number {
