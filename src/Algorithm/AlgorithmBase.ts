@@ -50,7 +50,7 @@ export abstract class AlgorithmBase implements IAlgorithm {
     await Promise.all(parents.map(chromosome => async(): Promise<void> => {
       chromosome.fitness = chromosome.fitness ?? await this.fitness.evaluate(chromosome);
     }));
-    const newGeneration = await this.reinsertion.select(population, offspring, parents);
+    const newGeneration = await this.reinsertion.select(population, offspring, parents, this.population.size);
     this.population.update(newGeneration);
   }
 }

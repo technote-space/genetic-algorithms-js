@@ -23,13 +23,21 @@ export abstract class PopulationBase implements IPopulation {
     return this._fitness;
   }
 
+  get size(): number {
+    return this._size;
+  }
+
   public async init(): Promise<void> {
-    this._chromosomes = new Array<IChromosome>(this._size);
+    this._chromosomes = new Array<IChromosome>(this.size);
     this._generation = 0;
-    await Promise.all([...Array(this._size)].map(() => this._chromosomes.push(this._adamChromosome.createNew())));
+    await Promise.all([...Array(this.size)].map(() => this._chromosomes.push(this._adamChromosome.createNew())));
   }
 
   public async update(chromosomes: Array<IChromosome>): Promise<void> {
+    if (this.size !== chromosomes.length) {
+      throw new Error('Population size does not match the setting.');
+    }
+
     // eslint-disable-next-line no-magic-numbers
     this._chromosomes = Array.from(chromosomes).sort((chromosome1, chromosome2) => (chromosome2.fitness ?? -1.0) - (chromosome1.fitness ?? -1.0));
     if (this.best.fitness !== undefined && this.best.fitness !== this._fitness) {
