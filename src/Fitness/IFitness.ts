@@ -1,5 +1,5 @@
 import {IChromosome} from '..';
 
 export interface IFitness {
-  evaluate(chromosome: IChromosome): number;
+  evaluate(chromosome: IChromosome): Promise<number>;
 }

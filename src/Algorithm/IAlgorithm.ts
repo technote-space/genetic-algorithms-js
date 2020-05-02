@@ -15,7 +15,7 @@ export interface IAlgorithm {
   progress: number;
   hasReached: boolean;
 
-  reset(): void;
+  reset(): Promise<void>;
 
-  step(): void;
+  step(): Promise<void>;
 }

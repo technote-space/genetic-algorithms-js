@@ -31,21 +31,23 @@ export abstract class AlgorithmBase implements IAlgorithm {
     return this.termination.hasReached(this);
   }
 
-  public reset(): void {
+  public async reset(): Promise<void> {
     this.population.init();
     this.termination.init();
   }
 
-  public step(): void {
+  public async step(): Promise<void> {
     if (this.hasReached) {
       return;
     }
 
-    const {parents, population} = this.selection.select(this.population.chromosomes);
-    const offspring = this.crossover.cross(parents, this.crossoverProbability);
-    offspring.forEach(chromosome => this.mutation.mutate(chromosome, this.mutationProbability));
-    const newGeneration = this.reinsertion.select(population, offspring, parents);
-    newGeneration.forEach(chromosome => chromosome.fitness = this.fitness.evaluate(chromosome));
+    const {parents, population} = await this.selection.select(this.population.chromosomes);
+    const offspring = await this.crossover.cross(parents, this.crossoverProbability);
+    await Promise.all(offspring.map(chromosome => async(): Promise<void> => this.mutation.mutate(chromosome, this.mutationProbability)));
+    const newGeneration = await this.reinsertion.select(population, offspring, parents);
+    await Promise.all(newGeneration.map(chromosome => async(): Promise<void> => {
+      chromosome.fitness = await this.fitness.evaluate(chromosome);
+    }));
     this.population.update(newGeneration);
   }
 }
