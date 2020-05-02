@@ -70,8 +70,6 @@
   },
   "exclude": [
     "node_modules",
-    "__tests__",
-    "jest.setup.ts",
     "dist/**/*"
   ]
 }
