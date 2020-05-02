@@ -1,0 +1,33 @@
+import {IAlgorithm, ITermination} from '..';
+
+export abstract class TerminationBase implements ITermination {
+  private _hasReached = false;
+  // eslint-disable-next-line no-magic-numbers
+  private _progress = 0;
+
+  get progress(): number {
+    return this._progress;
+  }
+
+  public init(): void {
+    this._hasReached = false;
+    this._progress = 0;
+  }
+
+  public hasReached(algorithm: IAlgorithm): boolean {
+    if (!this._hasReached) {
+      this._hasReached = this.performHasReached(algorithm);
+      if (this._hasReached) {
+        this._progress = 100;
+      } else {
+        this._progress = this.performGetProgress(algorithm);
+      }
+    }
+
+    return this._hasReached;
+  }
+
+  protected abstract performGetProgress(algorithm: IAlgorithm): number;
+
+  protected abstract performHasReached(algorithm: IAlgorithm): boolean;
+}
