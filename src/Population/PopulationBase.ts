@@ -5,7 +5,7 @@ export abstract class PopulationBase implements IPopulation {
   private _generation: number;
   private _fitness: number;
 
-  protected constructor(private _size: number, private _adamChromosome: IChromosome, protected _bestChanged: undefined | (() => Promise<void>) = undefined) {
+  protected constructor(private readonly _size: number, private readonly _adamChromosome: IChromosome, protected readonly _bestChanged: undefined | (() => Promise<void>) = undefined) {
     this._chromosomes = [];
     this._generation = 0;
     this._fitness = 0;

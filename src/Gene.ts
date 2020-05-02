@@ -1,6 +1,6 @@
 export class Gene {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  constructor(public _value: any) {
+  constructor(private _value: any) {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
