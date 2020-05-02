@@ -4,6 +4,7 @@ export interface IPopulation {
   chromosomes: Array<IChromosome>;
   best: IChromosome;
   fitness: number;
+  size: number;
 
   init(): void;
 
