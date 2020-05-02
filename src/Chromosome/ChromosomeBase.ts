@@ -3,7 +3,7 @@ import {Gene, IChromosome} from '..';
 export abstract class ChromosomeBase implements IChromosome {
   private readonly genes: Array<Gene>;
   // eslint-disable-next-line no-magic-numbers
-  public fitness = 0;
+  public fitness = undefined;
 
   protected constructor(private readonly _length: number) {
     // eslint-disable-next-line no-magic-numbers

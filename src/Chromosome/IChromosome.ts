@@ -1,7 +1,7 @@
 import {Gene} from '..';
 
 export interface IChromosome {
-  fitness: number;
+  fitness: number | undefined;
 
   length: number;
 

@@ -30,8 +30,9 @@ export abstract class PopulationBase implements IPopulation {
   }
 
   public async update(chromosomes: Array<IChromosome>): Promise<void> {
-    this._chromosomes = Array.from(chromosomes).sort((chromosome1, chromosome2) => chromosome2.fitness - chromosome1.fitness);
-    if (this.best.fitness !== this._fitness) {
+    // eslint-disable-next-line no-magic-numbers
+    this._chromosomes = Array.from(chromosomes).sort((chromosome1, chromosome2) => (chromosome2.fitness ?? -1.0) - (chromosome1.fitness ?? -1.0));
+    if (this.best.fitness !== undefined && this.best.fitness !== this._fitness) {
       this._fitness = this.best.fitness;
       if (this._bestChanged) {
         await this._bestChanged();
