@@ -14,7 +14,7 @@ export abstract class ChromosomeBase implements IChromosome {
     this.genes = new Array<Gene>(_length);
   }
 
-  get length(): number {
+  public get length(): number {
     return this._length;
   }
 
