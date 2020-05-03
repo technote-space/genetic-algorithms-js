@@ -27,10 +27,10 @@ export abstract class PopulationBase implements IPopulation {
     return this._size;
   }
 
-  public async init(): Promise<void> {
-    this._chromosomes = new Array<IChromosome>(this.size);
+  public init(): void {
+    this._chromosomes = new Array<IChromosome>();
     this._generation = 0;
-    await Promise.all([...Array(this.size)].map(() => this._chromosomes.push(this._adamChromosome.createNew())));
+    [...Array(this.size)].forEach(() => this._chromosomes.push(this._adamChromosome.createNew()));
     this.performInit();
   }
 
