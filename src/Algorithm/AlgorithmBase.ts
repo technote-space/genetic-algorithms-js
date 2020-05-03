@@ -57,5 +57,10 @@ export abstract class AlgorithmBase implements IAlgorithm {
     }));
     const newGeneration = await this.reinsertion.select(population, offspring, parents, this.population.size);
     this.population.update(newGeneration);
+    this.performStep();
+  }
+
+  protected performStep(): void {
+    // override if required
   }
 }
