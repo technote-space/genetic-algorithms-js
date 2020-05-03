@@ -31,6 +31,11 @@ export abstract class PopulationBase implements IPopulation {
     this._chromosomes = new Array<IChromosome>(this.size);
     this._generation = 0;
     await Promise.all([...Array(this.size)].map(() => this._chromosomes.push(this._adamChromosome.createNew())));
+    this.performInit();
+  }
+
+  protected performInit(): void {
+    // override if required
   }
 
   public async update(chromosomes: Array<IChromosome>): Promise<void> {

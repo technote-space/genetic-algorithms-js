@@ -34,6 +34,11 @@ export abstract class AlgorithmBase implements IAlgorithm {
   public async reset(): Promise<void> {
     this.population.init();
     this.termination.init();
+    this.performReset();
+  }
+
+  protected performReset(): void {
+    // override if required
   }
 
   public async step(): Promise<void> {
