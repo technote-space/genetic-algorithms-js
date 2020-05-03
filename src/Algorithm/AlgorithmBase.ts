@@ -44,7 +44,7 @@ export abstract class AlgorithmBase implements IAlgorithm {
     const {parents, population} = await this.selection.select(this.population.chromosomes);
     const offspring = await this.crossover.cross(parents, this.crossoverProbability);
     await Promise.all(offspring.map(chromosome => async(): Promise<void> => {
-      this.mutation.mutate(chromosome, this.mutationProbability);
+      await this.mutation.mutate(chromosome, this.mutationProbability);
       chromosome.fitness = await this.fitness.evaluate(chromosome);
     }));
     await Promise.all(parents.map(chromosome => async(): Promise<void> => {
