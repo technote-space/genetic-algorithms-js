@@ -12,6 +12,11 @@ export abstract class TerminationBase implements ITermination {
   public init(): void {
     this._hasReached = false;
     this._progress = 0;
+    this.performInit();
+  }
+
+  protected performInit(): void {
+    // override if required
   }
 
   public hasReached(algorithm: IAlgorithm): boolean {
