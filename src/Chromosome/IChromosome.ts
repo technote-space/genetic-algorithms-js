@@ -11,6 +11,8 @@ export interface IChromosome {
 
   generateGene(index: number): Gene;
 
+  generateGenes(): void;
+
   createNew(): IChromosome;
 
   clone(): IChromosome;
