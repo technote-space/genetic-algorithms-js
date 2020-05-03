@@ -28,6 +28,10 @@ export abstract class ChromosomeBase implements IChromosome {
 
   public abstract generateGene(index: number): Gene;
 
+  public generateGenes(): void {
+    [...Array(this.length).keys()].forEach(index => this.setGene(index, this.generateGene(index)));
+  }
+
   public abstract createNew(): ChromosomeBase;
 
   public clone(): ChromosomeBase {
