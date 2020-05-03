@@ -4,11 +4,11 @@ export abstract class CrossoverBase implements ICrossover {
   protected constructor(protected readonly _parentsNumber: number, protected readonly _childrenNumber: number) {
   }
 
-  get parentsNumber(): number {
+  public get parentsNumber(): number {
     return this._parentsNumber;
   }
 
-  get childrenNumber(): number {
+  public get childrenNumber(): number {
     return this._childrenNumber;
   }
 

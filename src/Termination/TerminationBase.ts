@@ -5,7 +5,7 @@ export abstract class TerminationBase implements ITermination {
   // eslint-disable-next-line no-magic-numbers
   private _progress = 0;
 
-  get progress(): number {
+  public get progress(): number {
     return this._progress;
   }
 

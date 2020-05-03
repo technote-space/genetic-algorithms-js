@@ -1,6 +1,8 @@
 import {IChromosome, IPopulation, IFitness, ISelection, ICrossover, IMutation, IReinsertion, ITermination} from '..';
 
 export interface IAlgorithm {
+  generationNumber: number;
+  offspringNumber: number;
   population: IPopulation;
   fitness: IFitness;
   selection: ISelection;
