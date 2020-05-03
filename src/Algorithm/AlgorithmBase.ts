@@ -72,7 +72,7 @@ export abstract class AlgorithmBase implements IAlgorithm {
       chromosome.fitness = chromosome.fitness ?? await this.fitness.evaluate(chromosome);
     }));
     const newGeneration = await this.reinsertion.select(population, offspring, parents, this.population.size);
-    this.population.update(newGeneration);
+    await this.population.update(newGeneration);
     this._generationNumber++;
     this._offspringNumber += offspring.length;
     this.performStep();
