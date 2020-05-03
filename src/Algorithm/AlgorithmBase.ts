@@ -47,6 +47,9 @@ export abstract class AlgorithmBase implements IAlgorithm {
 
   public async reset(): Promise<void> {
     this.population.init();
+    await Promise.all(this.population.chromosomes.map(async(chromosome): Promise<void> => {
+      chromosome.fitness = await this.fitness.evaluate(chromosome);
+    }));
     this.termination.init();
     this._generationNumber = 0;
     this._offspringNumber = 0;
@@ -64,11 +67,11 @@ export abstract class AlgorithmBase implements IAlgorithm {
 
     const {parents, population} = await this.selection.select(this.population.chromosomes);
     const offspring = await this.crossover.cross(parents, this.crossoverProbability);
-    await Promise.all(offspring.map(chromosome => async(): Promise<void> => {
+    await Promise.all(offspring.map(async(chromosome): Promise<void> => {
       await this.mutation.mutate(chromosome, this.mutationProbability);
       chromosome.fitness = await this.fitness.evaluate(chromosome);
     }));
-    await Promise.all(parents.map(chromosome => async(): Promise<void> => {
+    await Promise.all(parents.map(async(chromosome): Promise<void> => {
       chromosome.fitness = chromosome.fitness ?? await this.fitness.evaluate(chromosome);
     }));
     const newGeneration = await this.reinsertion.select(population, offspring, parents, this.population.size);
