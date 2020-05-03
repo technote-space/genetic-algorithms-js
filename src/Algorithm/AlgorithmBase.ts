@@ -1,6 +1,20 @@
 import {IAlgorithm, IChromosome, IPopulation, IFitness, ISelection, ICrossover, IMutation, IReinsertion, ITermination} from '..';
 
 export abstract class AlgorithmBase implements IAlgorithm {
+  // eslint-disable-next-line no-magic-numbers
+  protected _generationNumber = 0;
+
+  // eslint-disable-next-line no-magic-numbers
+  protected _offspringNumber = 0;
+
+  public get generationNumber(): number {
+    return this._generationNumber;
+  }
+
+  public get offspringNumber(): number {
+    return this._offspringNumber;
+  }
+
   abstract get population(): IPopulation;
 
   abstract get fitness(): IFitness;
@@ -34,6 +48,8 @@ export abstract class AlgorithmBase implements IAlgorithm {
   public async reset(): Promise<void> {
     this.population.init();
     this.termination.init();
+    this._generationNumber = 0;
+    this._offspringNumber = 0;
     this.performReset();
   }
 
@@ -57,5 +73,12 @@ export abstract class AlgorithmBase implements IAlgorithm {
     }));
     const newGeneration = await this.reinsertion.select(population, offspring, parents, this.population.size);
     this.population.update(newGeneration);
+    this._generationNumber++;
+    this._offspringNumber += offspring.length;
+    this.performStep();
+  }
+
+  protected performStep(): void {
+    // override if required
   }
 }
