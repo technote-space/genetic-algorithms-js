@@ -3,6 +3,7 @@ import {IChromosome, IPopulation, IFitness, ISelection, ICrossover, IMutation, I
 export interface IAlgorithm {
   generationNumber: number;
   offspringNumber: number;
+  initialized: boolean;
   population: IPopulation;
   fitness: IFitness;
   selection: ISelection;

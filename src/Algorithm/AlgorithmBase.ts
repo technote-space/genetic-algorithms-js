@@ -7,12 +7,18 @@ export abstract class AlgorithmBase implements IAlgorithm {
   // eslint-disable-next-line no-magic-numbers
   protected _offspringNumber = 0;
 
+  private _initialized = false;
+
   public get generationNumber(): number {
     return this._generationNumber;
   }
 
   public get offspringNumber(): number {
     return this._offspringNumber;
+  }
+
+  public get initialized(): boolean {
+    return this._initialized;
   }
 
   abstract get population(): IPopulation;
@@ -54,6 +60,7 @@ export abstract class AlgorithmBase implements IAlgorithm {
     this._generationNumber = 0;
     this._offspringNumber = 0;
     this.performReset();
+    this._initialized = true;
   }
 
   protected performReset(): void {
@@ -63,6 +70,10 @@ export abstract class AlgorithmBase implements IAlgorithm {
   public async step(): Promise<void> {
     if (this.hasReached) {
       return;
+    }
+
+    if (!this._initialized) {
+      this.reset();
     }
 
     const {parents, population} = await this.selection.select(this.population.chromosomes);
