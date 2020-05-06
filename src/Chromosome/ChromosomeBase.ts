@@ -4,7 +4,7 @@ export abstract class ChromosomeBase implements IChromosome {
   private acids: Array<Acid>;
   public fitness: number | undefined = undefined;
 
-  protected constructor(private readonly _length: number) {
+  protected constructor(_length: number) {
     // eslint-disable-next-line no-magic-numbers
     if (_length < 2) {
       throw new Error('Too short.');
@@ -18,7 +18,7 @@ export abstract class ChromosomeBase implements IChromosome {
   }
 
   public get length(): number {
-    return this._length;
+    return this.acids.length;
   }
 
   public getAcid(index: number): Acid {
