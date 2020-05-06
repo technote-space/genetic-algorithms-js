@@ -1,15 +1,15 @@
-import {Gene} from '..';
+import {Acid} from '..';
 
 export interface IChromosome {
   fitness: number | undefined;
 
   length: number;
 
-  getGene(index: number): Gene;
+  getGene(index: number): Acid;
 
-  setGene(index: number, gene: Gene): void;
+  setGene(index: number, gene: Acid): void;
 
-  generateGene(index: number): Gene;
+  generateGene(index: number): Acid;
 
   generateGenes(): void;
 
