@@ -10,25 +10,25 @@ export abstract class ChromosomeBase implements IChromosome {
       throw new Error('Too short.');
     }
 
-    this.genes = new Array<Acid>(_length);
+    this.acids = new Array<Acid>(_length);
   }
 
   public get length(): number {
     return this._length;
   }
 
-  public getGene(index: number): Acid {
-    return this.genes[index];
+  public getAcid(index: number): Acid {
+    return this.acids[index];
   }
 
-  public setGene(index: number, gene: Acid): void {
-    this.genes[index] = gene;
+  public setAcid(index: number, acid: Acid): void {
+    this.acids[index] = acid;
   }
 
-  public abstract generateGene(index: number): Acid;
+  public abstract generateAcid(index: number): Acid;
 
-  public generateGenes(): void {
-    [...Array(this.length).keys()].forEach(index => this.setGene(index, this.generateGene(index)));
+  public generateAcids(): void {
+    [...Array(this.length).keys()].forEach(index => this.setAcid(index, this.generateAcid(index)));
   }
 
   public abstract createNew(): ChromosomeBase;
@@ -46,13 +46,13 @@ export abstract class ChromosomeBase implements IChromosome {
 
     // eslint-disable-next-line no-magic-numbers
     for (let index = this.length; --index >= 0;) {
-      this.genes[index] = from.getGene(index);
+      this.acids[index] = from.getAcid(index);
     }
 
     this.fitness = from.fitness;
   }
 
   public mutation(index: number): void {
-    this.genes[index] = this.generateGene(index);
+    this.acids[index] = this.generateAcid(index);
   }
 }

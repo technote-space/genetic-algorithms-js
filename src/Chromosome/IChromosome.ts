@@ -5,13 +5,13 @@ export interface IChromosome {
 
   length: number;
 
-  getGene(index: number): Acid;
+  getAcid(index: number): Acid;
 
-  setGene(index: number, gene: Acid): void;
+  setAcid(index: number, acid: Acid): void;
 
-  generateGene(index: number): Acid;
+  generateAcid(index: number): Acid;
 
-  generateGenes(): void;
+  generateAcids(): void;
 
   createNew(): IChromosome;
 
