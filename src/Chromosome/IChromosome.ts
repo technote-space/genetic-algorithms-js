@@ -5,6 +5,8 @@ export interface IChromosome {
 
   length: number;
 
+  createFromAcids(acids: Array<Acid>): void;
+
   getAcid(index: number): Acid;
 
   setAcid(index: number, acid: Acid): void;

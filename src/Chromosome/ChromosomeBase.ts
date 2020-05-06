@@ -1,7 +1,7 @@
 import {Acid, IChromosome} from '..';
 
 export abstract class ChromosomeBase implements IChromosome {
-  private readonly genes: Array<Acid>;
+  private acids: Array<Acid>;
   public fitness: number | undefined = undefined;
 
   protected constructor(private readonly _length: number) {
@@ -11,6 +11,10 @@ export abstract class ChromosomeBase implements IChromosome {
     }
 
     this.acids = new Array<Acid>(_length);
+  }
+
+  public createFromAcids(acids: Array<Acid>): void {
+    this.acids = [...acids];
   }
 
   public get length(): number {
