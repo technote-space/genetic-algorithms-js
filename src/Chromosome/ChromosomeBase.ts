@@ -50,6 +50,13 @@ export abstract class ChromosomeBase implements IChromosome {
     }
 
     this.fitness = from.fitness;
+
+    this.performCopyFrom(from);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected performCopyFrom(from: IChromosome): void {
+    // override if required
   }
 
   public mutation(index: number): void {
