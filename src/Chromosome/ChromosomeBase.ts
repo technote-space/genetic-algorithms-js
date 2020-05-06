@@ -1,8 +1,7 @@
-import {Gene, IChromosome} from '..';
+import {Acid, IChromosome} from '..';
 
 export abstract class ChromosomeBase implements IChromosome {
-  private readonly genes: Array<Gene>;
-  // eslint-disable-next-line no-magic-numbers
+  private readonly genes: Array<Acid>;
   public fitness: number | undefined = undefined;
 
   protected constructor(private readonly _length: number) {
@@ -11,22 +10,22 @@ export abstract class ChromosomeBase implements IChromosome {
       throw new Error('Too short.');
     }
 
-    this.genes = new Array<Gene>(_length);
+    this.genes = new Array<Acid>(_length);
   }
 
   public get length(): number {
     return this._length;
   }
 
-  public getGene(index: number): Gene {
+  public getGene(index: number): Acid {
     return this.genes[index];
   }
 
-  public setGene(index: number, gene: Gene): void {
+  public setGene(index: number, gene: Acid): void {
     this.genes[index] = gene;
   }
 
-  public abstract generateGene(index: number): Gene;
+  public abstract generateGene(index: number): Acid;
 
   public generateGenes(): void {
     [...Array(this.length).keys()].forEach(index => this.setGene(index, this.generateGene(index)));

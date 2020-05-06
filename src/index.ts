@@ -1,4 +1,4 @@
-export {Gene} from './Gene';
+export {Acid} from './Acid';
 
 export {IAlgorithm} from './Algorithm/IAlgorithm';
 export {IChromosome} from './Chromosome/IChromosome';

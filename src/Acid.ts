@@ -1,4 +1,4 @@
-export class Gene {
+export class Acid {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(private _value: any) {
   }
