@@ -23,7 +23,7 @@ export abstract class TerminationBase implements ITermination {
     if (!this._hasReached) {
       this._hasReached = this.performHasReached(algorithm);
       if (this._hasReached) {
-        this._progress = 100;
+        this._progress = 1;
       } else {
         this._progress = this.performGetProgress(algorithm);
       }
