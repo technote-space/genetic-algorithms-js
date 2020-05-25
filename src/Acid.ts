@@ -8,7 +8,7 @@ export class Acid {
     return this._value;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/explicit-module-boundary-types
   public mutation(value: any): void {
     this._value = value;
   }
