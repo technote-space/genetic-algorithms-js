@@ -1,17 +1,13 @@
-import {IChromosome, IPopulation, IFitness, ISelection, ICrossover, IMutation, IReinsertion, ITermination} from '..';
+import {IChromosome, ITermination, IIsland, IMigration} from '..';
 
 export interface IAlgorithm {
   generationNumber: number;
   offspringNumber: number;
   initialized: boolean;
-  population: IPopulation;
-  fitness: IFitness;
-  selection: ISelection;
-  crossover: ICrossover;
-  crossoverProbability: number;
-  mutation: IMutation;
-  mutationProbability: number;
-  reinsertion: IReinsertion;
+  islands: Array<IIsland>;
+
+  chromosomes: Array<IChromosome>;
+  migration?: IMigration;
   termination: ITermination;
 
   best: IChromosome;
