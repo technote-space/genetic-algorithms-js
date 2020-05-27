@@ -1,46 +1,41 @@
-import {IAlgorithm, IChromosome, IPopulation, IFitness, ISelection, ICrossover, IMutation, IReinsertion, ITermination} from '..';
+import {IAlgorithm, IChromosome, ITermination, IIsland, IMigration} from '..';
 
 export abstract class AlgorithmBase implements IAlgorithm {
-  // eslint-disable-next-line no-magic-numbers
-  protected _generationNumber = 0;
+  private _chromosomes: Array<IChromosome> = [];
+  private _fitness: number;
 
-  // eslint-disable-next-line no-magic-numbers
-  protected _offspringNumber = 0;
-
-  private _initialized = false;
+  protected constructor(protected readonly _bestChanged: undefined | (() => Promise<void>) = undefined) {
+    this._fitness = 0;
+  }
 
   public get generationNumber(): number {
-    return this._generationNumber;
+    // eslint-disable-next-line no-magic-numbers
+    return this.islands.reduce((acc, island) => acc + island.generationNumber, 0);
   }
 
   public get offspringNumber(): number {
-    return this._offspringNumber;
+    // eslint-disable-next-line no-magic-numbers
+    return this.islands.reduce((acc, island) => acc + island.offspringNumber, 0);
   }
 
   public get initialized(): boolean {
-    return this._initialized;
+    return this.islands.every(island => island.initialized);
   }
 
-  abstract get population(): IPopulation;
+  public get chromosomes(): Array<IChromosome> {
+    return this._chromosomes;
+  }
 
-  abstract get fitness(): IFitness;
+  abstract get islands(): Array<IIsland>;
 
-  abstract get selection(): ISelection;
-
-  abstract get crossover(): ICrossover;
-
-  abstract get crossoverProbability(): number;
-
-  abstract get mutation(): IMutation;
-
-  abstract get mutationProbability(): number;
-
-  abstract get reinsertion(): IReinsertion;
+  public get migration(): IMigration | undefined {
+    return undefined;
+  }
 
   abstract get termination(): ITermination;
 
   get best(): IChromosome {
-    return this.population.best;
+    return this._chromosomes[0];
   }
 
   get progress(): number {
@@ -51,16 +46,26 @@ export abstract class AlgorithmBase implements IAlgorithm {
     return this.termination.hasReached(this);
   }
 
+  protected async updateChromosomes(): Promise<void> {
+    // eslint-disable-next-line no-magic-numbers
+    this._chromosomes = this.islands.flatMap(island => island.population.chromosomes).sort((c1, c2) => (c2.fitness ?? -1.0) - (c1.fitness ?? -1.0));
+    // eslint-disable-next-line no-magic-numbers
+    const bestFitness = this.best.fitness ?? -1;
+    // eslint-disable-next-line no-magic-numbers
+    if (bestFitness >= 0 && bestFitness !== this._fitness) {
+      this._fitness = bestFitness;
+      if (this._bestChanged) {
+        await this._bestChanged();
+      }
+    }
+  }
+
   public async reset(): Promise<void> {
-    this.population.init();
-    await Promise.all(this.population.chromosomes.map(async(chromosome): Promise<void> => {
-      await this.fitness.evaluate(chromosome);
-    }));
+    await Promise.all(this.islands.map(island => island.reset()));
+    this.migration?.init();
     this.termination.init();
-    this._generationNumber = 0;
-    this._offspringNumber = 0;
+    await this.updateChromosomes();
     this.performReset();
-    this._initialized = true;
   }
 
   protected performReset(): void {
@@ -72,25 +77,10 @@ export abstract class AlgorithmBase implements IAlgorithm {
       return;
     }
 
-    if (!this._initialized) {
-      this.reset();
-    }
+    await Promise.all(this.islands.map(island => island.step()));
+    await this.migration?.migrate(this);
+    this.updateChromosomes();
 
-    const {parents, population} = await this.selection.select(this.population.chromosomes);
-    const offspring = await this.crossover.cross(parents, this.crossoverProbability);
-    await Promise.all(offspring.map(async(chromosome): Promise<void> => {
-      await this.mutation.mutate(chromosome, this.mutationProbability);
-      await this.fitness.evaluate(chromosome);
-    }));
-    await Promise.all(parents.map(async(chromosome): Promise<void> => {
-      if (chromosome.fitness === undefined) {
-        await this.fitness.evaluate(chromosome);
-      }
-    }));
-    const newGeneration = await this.reinsertion.select(population, offspring, parents, this.population.size);
-    await this.population.update(newGeneration);
-    this._generationNumber++;
-    this._offspringNumber += offspring.length;
     this.performStep();
   }
 
