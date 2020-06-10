@@ -1,5 +1,5 @@
 export class Acid {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/explicit-module-boundary-types
   constructor(private _value: any) {
   }
 
