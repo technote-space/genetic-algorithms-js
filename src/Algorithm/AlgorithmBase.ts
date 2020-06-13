@@ -50,7 +50,7 @@ export abstract class AlgorithmBase implements IAlgorithm {
     // eslint-disable-next-line no-magic-numbers
     this._chromosomes = this.islands.flatMap(island => island.population.chromosomes).sort((c1, c2) => (c2.fitness ?? -1.0) - (c1.fitness ?? -1.0));
     // eslint-disable-next-line no-magic-numbers
-    const bestFitness = this.best.fitness ?? -1;
+    const bestFitness = this?.best.fitness ?? -1;
     // eslint-disable-next-line no-magic-numbers
     if (bestFitness >= 0 && bestFitness !== this._fitness) {
       this._fitness = bestFitness;
@@ -79,7 +79,7 @@ export abstract class AlgorithmBase implements IAlgorithm {
 
     await Promise.all(this.islands.map(island => island.step()));
     await this.migration?.migrate(this);
-    this.updateChromosomes();
+    await this.updateChromosomes();
 
     this.performStep();
   }
