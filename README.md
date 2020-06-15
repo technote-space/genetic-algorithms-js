@@ -25,6 +25,9 @@ Genetic Algorithms Library
 yarn add @technote-space/genetic-algorithms-js
 ```
 
+## Framework
+https://github.com/technote-space/ga-framework
+
 ## Author
 [GitHub (Technote)](https://github.com/technote-space)  
 [Blog](https://technote.space)
