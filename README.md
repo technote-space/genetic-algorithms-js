@@ -15,6 +15,7 @@ Genetic Algorithms Library
 <summary>Details</summary>
 
 - [Install](#install)
+- [Framework](#framework)
 - [Author](#author)
 
 </details>
