@@ -15,6 +15,7 @@ Genetic Algorithms Library
 <summary>Details</summary>
 
 - [Install](#install)
+- [Framework](#framework)
 - [Author](#author)
 
 </details>
@@ -24,6 +25,9 @@ Genetic Algorithms Library
 ```shell script
 yarn add @technote-space/genetic-algorithms-js
 ```
+
+## Framework
+https://github.com/technote-space/ga-framework
 
 ## Author
 [GitHub (Technote)](https://github.com/technote-space)  
