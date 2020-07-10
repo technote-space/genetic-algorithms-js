@@ -3,6 +3,7 @@ on:
     - cron: 30 18 7 * *
   repository_dispatch:
     types: [check-link]
+  workflow_dispatch:
 
 name: Broken Link Check
 jobs:
