@@ -35,6 +35,11 @@ export abstract class MigrationBase implements IMigration {
   }
 
   public async migrate(algorithm: IAlgorithm): Promise<void> {
+    // eslint-disable-next-line no-magic-numbers
+    if (algorithm.islands.length <= 1) {
+      return;
+    }
+
     const count = this.getCount(algorithm);
     if (count >= this.prev + this.interval) {
       this.prev = count;

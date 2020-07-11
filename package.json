@@ -1,6 +1,6 @@
 {
   "name": "@technote-space/genetic-algorithms-js",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "description": "Genetic Algorithms Library",
   "author": {
     "name": "Technote",
@@ -30,8 +30,8 @@
   "devDependencies": {
     "@commitlint/cli": "^9.0.1",
     "@commitlint/config-conventional": "^9.0.1",
-    "@typescript-eslint/eslint-plugin": "^3.5.0",
-    "@typescript-eslint/parser": "^3.5.0",
+    "@typescript-eslint/eslint-plugin": "^3.6.0",
+    "@typescript-eslint/parser": "^3.6.0",
     "eslint": "^7.4.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
