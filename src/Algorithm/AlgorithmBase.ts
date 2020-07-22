@@ -54,14 +54,16 @@ export abstract class AlgorithmBase implements IAlgorithm {
   protected async updateChromosomes(): Promise<void> {
     // eslint-disable-next-line no-magic-numbers
     this._chromosomes = this.islands.flatMap(island => island.population.chromosomes).sort((c1, c2) => c2.fitness - c1.fitness);
-    this._best = this._chromosomes[0].clone();
-    // eslint-disable-next-line no-magic-numbers
-    const bestFitness = this._chromosomes[0].fitness;
-    // eslint-disable-next-line no-magic-numbers
-    if (bestFitness >= 0 && bestFitness !== this._fitness) {
-      this._fitness = bestFitness;
-      if (this._bestChanged) {
-        await this._bestChanged();
+    if (this._chromosomes.length) {
+      this._best = this._chromosomes[0].clone();
+      // eslint-disable-next-line no-magic-numbers
+      const bestFitness = this._chromosomes[0].fitness;
+      // eslint-disable-next-line no-magic-numbers
+      if (bestFitness >= 0 && bestFitness !== this._fitness) {
+        this._fitness = bestFitness;
+        if (this._bestChanged) {
+          await this._bestChanged();
+        }
       }
     }
   }
