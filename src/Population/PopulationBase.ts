@@ -2,11 +2,9 @@ import {IChromosome, IPopulation} from '..';
 
 export abstract class PopulationBase implements IPopulation {
   private _chromosomes: Array<IChromosome>;
-  private _generation: number;
 
   protected constructor(private readonly _size: number, private readonly _adamChromosome: IChromosome) {
     this._chromosomes = [];
-    this._generation = 0;
   }
 
   get chromosomes(): Array<IChromosome> {
@@ -19,7 +17,6 @@ export abstract class PopulationBase implements IPopulation {
 
   public init(): void {
     this._chromosomes = new Array<IChromosome>();
-    this._generation = 0;
     [...Array(this.size)].forEach(() => this._chromosomes.push(this._adamChromosome.createNew()));
     this.performInit();
   }
