@@ -3,6 +3,7 @@ import {IAlgorithm, IChromosome, ITermination, IIsland, IMigration} from '..';
 export abstract class AlgorithmBase implements IAlgorithm {
   private _chromosomes: Array<IChromosome> = [];
   private _fitness: number;
+  private _best: IChromosome | undefined;
 
   protected constructor(protected readonly _bestChanged: undefined | (() => Promise<void>) = undefined) {
     this._fitness = 0;
@@ -35,7 +36,11 @@ export abstract class AlgorithmBase implements IAlgorithm {
   abstract get termination(): ITermination;
 
   get best(): IChromosome {
-    return this._chromosomes[0];
+    if (!this._best) {
+      return this._chromosomes[0];
+    }
+
+    return this._best;
   }
 
   get progress(): number {
@@ -49,8 +54,9 @@ export abstract class AlgorithmBase implements IAlgorithm {
   protected async updateChromosomes(): Promise<void> {
     // eslint-disable-next-line no-magic-numbers
     this._chromosomes = this.islands.flatMap(island => island.population.chromosomes).sort((c1, c2) => c2.fitness - c1.fitness);
+    this._best = this._chromosomes[0].clone();
     // eslint-disable-next-line no-magic-numbers
-    const bestFitness = this.best?.fitness;
+    const bestFitness = this.best.fitness;
     // eslint-disable-next-line no-magic-numbers
     if (bestFitness >= 0 && bestFitness !== this._fitness) {
       this._fitness = bestFitness;
