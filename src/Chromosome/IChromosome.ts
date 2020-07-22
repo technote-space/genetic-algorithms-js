@@ -1,7 +1,7 @@
 import {Acid} from '..';
 
 export interface IChromosome {
-  fitness: number | undefined;
+  fitness: number;
 
   length: number;
 

@@ -2,7 +2,6 @@ import {Acid, IChromosome} from '..';
 
 export abstract class ChromosomeBase implements IChromosome {
   private acids: Array<Acid>;
-  public fitness: number | undefined = undefined;
 
   protected constructor(_length: number) {
     // eslint-disable-next-line no-magic-numbers
@@ -16,6 +15,8 @@ export abstract class ChromosomeBase implements IChromosome {
   public createFromAcids(acids: Array<Acid>): void {
     this.acids = [...acids];
   }
+
+  public abstract get fitness(): number;
 
   public get length(): number {
     return this.acids.length;
@@ -52,8 +53,6 @@ export abstract class ChromosomeBase implements IChromosome {
     for (let index = this.length; --index >= 0;) {
       this.acids[index] = from.getAcid(index);
     }
-
-    this.fitness = from.fitness;
 
     this.performCopyFrom(from);
   }

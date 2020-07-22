@@ -64,9 +64,7 @@ export abstract class IslandBase implements IIsland {
       await this.fitness.evaluate(chromosome);
     }));
     await Promise.all(parents.map(async(chromosome): Promise<void> => {
-      if (chromosome.fitness === undefined) {
-        await this.fitness.evaluate(chromosome);
-      }
+      await this.fitness.evaluate(chromosome);
     }));
     const newGeneration = await this.reinsertion.select(population, offspring, parents, this.population.size);
     await this.population.update(newGeneration);

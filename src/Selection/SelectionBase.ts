@@ -10,13 +10,13 @@ export abstract class SelectionBase implements ISelection {
 
   protected takeByFitness(chromosomes: Array<IChromosome>): IChromosome | never {
     // eslint-disable-next-line no-magic-numbers
-    const sum = chromosomes.reduce((acc, chromosome) => acc + (chromosome.fitness ?? 0), 0);
+    const sum = chromosomes.reduce((acc, chromosome) => acc + chromosome.fitness, 0);
     let cumulative = 0.0;
     const rand = Math.random() * sum;
     for (let index = 0; index < chromosomes.length; index++) {
       const chromosome = chromosomes[index];
       // eslint-disable-next-line no-magic-numbers
-      cumulative += chromosome.fitness ?? 0;
+      cumulative += chromosome.fitness;
       if (cumulative >= rand) {
         // eslint-disable-next-line no-magic-numbers
         chromosomes.splice(index, 1);
@@ -37,9 +37,9 @@ export abstract class SelectionBase implements ISelection {
     let cumulative = 0.0;
     const rand = Math.random() * sum;
     for (let index = 0; index < chromosomes.length; index++) {
-      const chromosome = chromosomes[index];
       cumulative += chromosomes.length - index;
       if (cumulative >= rand) {
+        const chromosome = chromosomes[index];
         // eslint-disable-next-line no-magic-numbers
         chromosomes.splice(index, 1);
         return chromosome;
