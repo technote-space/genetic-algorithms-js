@@ -3,7 +3,7 @@ import {IAlgorithm, ITermination} from '..';
 export abstract class TerminationBase implements ITermination {
   private _hasReached = false;
   // eslint-disable-next-line no-magic-numbers
-  private _progress = 0;
+  private _progress   = 0;
 
   public get progress(): number {
     return this._progress;
@@ -11,7 +11,7 @@ export abstract class TerminationBase implements ITermination {
 
   public init(): void {
     this._hasReached = false;
-    this._progress = 0;
+    this._progress   = 0;
     this.performInit();
   }
 

@@ -29,12 +29,12 @@ export abstract class MigrationBase implements IMigration {
   public getDestinations(algorithm: IAlgorithm): Array<number> {
     const islandNumber = algorithm.islands.length;
     // eslint-disable-next-line no-magic-numbers
-    const time = this.time % (islandNumber - 1);
+    const time         = this.time % (islandNumber - 1);
     // eslint-disable-next-line no-magic-numbers
     return [...Array(islandNumber).keys()].map(num => (num + 1 + time) % islandNumber);
   }
 
-  public async migrate(algorithm: IAlgorithm): Promise<void> {
+  public migrate(algorithm: IAlgorithm): void {
     // eslint-disable-next-line no-magic-numbers
     if (algorithm.islands.length <= 1) {
       return;
@@ -43,7 +43,7 @@ export abstract class MigrationBase implements IMigration {
     const count = this.getCount(algorithm);
     if (count >= this.prev + this.interval) {
       this.prev = count;
-      await this.performMigrate(algorithm);
+      this.performMigrate(algorithm);
       this.time++;
     }
   }
@@ -65,17 +65,17 @@ export abstract class MigrationBase implements IMigration {
 
   protected static splitChromosomes(chromosomes: Array<IChromosome>, count: number): { population: Array<IChromosome>, emigrants: Array<IChromosome> } {
     const population = [...chromosomes];
-    const emigrants = MigrationBase.takeRandomChromosomes(population, count);
+    const emigrants  = MigrationBase.takeRandomChromosomes(population, count);
     return {population, emigrants};
   }
 
-  protected async performMigrate(algorithm: IAlgorithm): Promise<void> {
+  protected performMigrate(algorithm: IAlgorithm): void {
     const destination = this.getDestinations(algorithm);
-    const islands = algorithm.islands.map(island => MigrationBase.splitChromosomes(island.population.chromosomes, this.getTakeCount(island.population.chromosomes)));
+    const islands     = algorithm.islands.map(island => MigrationBase.splitChromosomes(island.population.chromosomes, this.getTakeCount(island.population.chromosomes)));
     islands.forEach((island, index) => {
       islands[destination[index]].population.push(...island.emigrants);
     });
 
-    await Promise.all(algorithm.islands.map((island, index) => island.population.update(islands[index].population)));
+    algorithm.islands.forEach((island, index) => island.population.update(islands[index].population));
   }
 }

@@ -1,4 +1,4 @@
-import {IPopulation, IFitness, ISelection, ICrossover, IMutation, IReinsertion, IIsland} from '..';
+import {IPopulation, IFitness, ISelection, ICrossover, IMutation, IReinsertion, IIsland, IChromosome} from '..';
 
 export abstract class IslandBase implements IIsland {
   // eslint-disable-next-line no-magic-numbers
@@ -37,13 +37,13 @@ export abstract class IslandBase implements IIsland {
 
   abstract get reinsertion(): IReinsertion;
 
-  public async reset(): Promise<void> {
+  public reset(): void {
     this.population.init();
-    await Promise.all(this.population.chromosomes.map(async(chromosome): Promise<void> => {
-      await this.fitness.evaluate(chromosome);
-    }));
+    this.population.chromosomes.forEach((chromosome): void => {
+      this.fitness.evaluate(chromosome);
+    });
     this._generationNumber = 0;
-    this._offspringNumber = 0;
+    this._offspringNumber  = 0;
     this.performReset();
     this._initialized = true;
   }
@@ -52,22 +52,31 @@ export abstract class IslandBase implements IIsland {
     // override if required
   }
 
-  public async step(): Promise<void> {
+  protected performMutate(chromosomes: Array<IChromosome>): void {
+    chromosomes.forEach((chromosome): void => {
+      this.mutation.mutate(chromosome, this.mutationProbability);
+    });
+  }
+
+  protected performEvaluate(chromosomes: Array<IChromosome>): void {
+    chromosomes.forEach((chromosome): void => {
+      this.fitness.evaluate(chromosome);
+    });
+  }
+
+  public step(): void {
     if (!this._initialized) {
       this.reset();
     }
 
-    const {parents, population} = await this.selection.select(this.population.chromosomes);
-    const offspring = await this.crossover.cross(parents, this.crossoverProbability);
-    await Promise.all(offspring.map(async(chromosome): Promise<void> => {
-      await this.mutation.mutate(chromosome, this.mutationProbability);
-      await this.fitness.evaluate(chromosome);
-    }));
-    await Promise.all(parents.map(async(chromosome): Promise<void> => {
-      await this.fitness.evaluate(chromosome);
-    }));
-    const newGeneration = await this.reinsertion.select(population, offspring, parents, this.population.size);
-    await this.population.update(newGeneration);
+    const {parents, population} = this.selection.select(this.population.chromosomes);
+    const offspring             = this.crossover.cross(parents, this.crossoverProbability);
+    this.performMutate(offspring);
+    this.performEvaluate(offspring);
+    this.performEvaluate(parents);
+
+    const newGeneration = this.reinsertion.select(population, offspring, parents, this.population.size);
+    this.population.update(newGeneration);
     this._generationNumber++;
     this._offspringNumber += offspring.length;
     this.performStep();

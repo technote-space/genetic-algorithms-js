@@ -5,7 +5,7 @@ export abstract class AlgorithmBase implements IAlgorithm {
   private _fitness: number;
   private _best: IChromosome | undefined;
 
-  protected constructor(protected readonly _bestChanged: undefined | (() => Promise<void>) = undefined) {
+  protected constructor(protected readonly _bestChanged: undefined | (() => void) = undefined) {
     this._fitness = 0;
   }
 
@@ -51,28 +51,28 @@ export abstract class AlgorithmBase implements IAlgorithm {
     return this.termination.hasReached(this);
   }
 
-  protected async updateChromosomes(): Promise<void> {
+  protected updateChromosomes(): void {
     // eslint-disable-next-line no-magic-numbers
     this._chromosomes = this.islands.flatMap(island => island.population.chromosomes).sort((c1, c2) => c2.fitness - c1.fitness);
     if (this._chromosomes.length) {
-      this._best = this._chromosomes[0].clone();
+      this._best        = this._chromosomes[0].clone();
       // eslint-disable-next-line no-magic-numbers
       const bestFitness = this._chromosomes[0].fitness;
       // eslint-disable-next-line no-magic-numbers
       if (bestFitness >= 0 && bestFitness !== this._fitness) {
         this._fitness = bestFitness;
         if (this._bestChanged) {
-          await this._bestChanged();
+          this._bestChanged();
         }
       }
     }
   }
 
-  public async reset(): Promise<void> {
-    await Promise.all(this.islands.map(island => island.reset()));
+  public reset(): void {
+    this.islands.forEach(island => island.reset());
     this.migration?.init();
     this.termination.init();
-    await this.updateChromosomes();
+    this.updateChromosomes();
     this.performReset();
   }
 
@@ -80,14 +80,14 @@ export abstract class AlgorithmBase implements IAlgorithm {
     // override if required
   }
 
-  public async step(): Promise<void> {
+  public step(): void {
     if (this.hasReached) {
       return;
     }
 
-    await Promise.all(this.islands.map(island => island.step()));
-    await this.migration?.migrate(this);
-    await this.updateChromosomes();
+    this.islands.forEach(island => island.step());
+    this.migration?.migrate(this);
+    this.updateChromosomes();
 
     this.performStep();
   }

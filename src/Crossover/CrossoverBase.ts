@@ -12,12 +12,12 @@ export abstract class CrossoverBase implements ICrossover {
     return this._childrenNumber;
   }
 
-  public async cross(parents: Array<IChromosome>, probability: number): Promise<Array<IChromosome>> | never {
+  public cross(parents: Array<IChromosome>, probability: number): Array<IChromosome> | never {
     if (parents.length !== this.parentsNumber) {
       throw new Error('Length is not same.');
     }
 
-    const offspring = await this.performCross(parents, probability);
+    const offspring = this.performCross(parents, probability);
     if (offspring.length !== this.childrenNumber) {
       throw new Error('Length is not same.');
     }
@@ -25,5 +25,5 @@ export abstract class CrossoverBase implements ICrossover {
     return offspring;
   }
 
-  protected abstract async performCross(parents: Array<IChromosome>, probability: number): Promise<Array<IChromosome>>;
+  protected abstract performCross(parents: Array<IChromosome>, probability: number): Array<IChromosome>;
 }

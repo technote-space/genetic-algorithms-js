@@ -25,7 +25,7 @@ export abstract class PopulationBase implements IPopulation {
     // override if required
   }
 
-  public async update(chromosomes: Array<IChromosome>): Promise<void> {
+  public update(chromosomes: Array<IChromosome>): void {
     if (this.size !== chromosomes.length) {
       throw new Error('Population size does not match the setting.');
     }

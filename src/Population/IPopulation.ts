@@ -6,5 +6,5 @@ export interface IPopulation {
 
   init(): void;
 
-  update(chromosomes: Array<IChromosome>): Promise<void>;
+  update(chromosomes: Array<IChromosome>): void;
 }
