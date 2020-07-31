@@ -1,5 +1,5 @@
 import {IChromosome} from '..';
 
 export interface ISelection {
-  select(chromosomes: Array<IChromosome>): Promise<{ parents: Array<IChromosome>; population: Array<IChromosome> }>;
+  select(chromosomes: Array<IChromosome>): { parents: Array<IChromosome>; population: Array<IChromosome> };
 }

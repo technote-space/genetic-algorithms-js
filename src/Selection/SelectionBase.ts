@@ -1,7 +1,7 @@
 import {ISelection, IChromosome} from '..';
 
 export abstract class SelectionBase implements ISelection {
-  public abstract async select(chromosomes: Array<IChromosome>): Promise<{ parents: Array<IChromosome>; population: Array<IChromosome> }>;
+  public abstract select(chromosomes: Array<IChromosome>): { parents: Array<IChromosome>; population: Array<IChromosome> };
 
   protected takeRandom(chromosomes: Array<IChromosome>): IChromosome {
     // eslint-disable-next-line no-magic-numbers
@@ -10,9 +10,9 @@ export abstract class SelectionBase implements ISelection {
 
   protected takeByFitness(chromosomes: Array<IChromosome>): IChromosome | never {
     // eslint-disable-next-line no-magic-numbers
-    const sum = chromosomes.reduce((acc, chromosome) => acc + chromosome.fitness, 0);
+    const sum      = chromosomes.reduce((acc, chromosome) => acc + chromosome.fitness, 0);
     let cumulative = 0.0;
-    const rand = Math.random() * sum;
+    const rand     = Math.random() * sum;
     for (let index = 0; index < chromosomes.length; index++) {
       const chromosome = chromosomes[index];
       // eslint-disable-next-line no-magic-numbers
@@ -33,9 +33,9 @@ export abstract class SelectionBase implements ISelection {
 
   protected takeByOrder(chromosomes: Array<IChromosome>): IChromosome | never {
     // eslint-disable-next-line no-magic-numbers
-    const sum = chromosomes.length * (chromosomes.length + 1) / 2;
+    const sum      = chromosomes.length * (chromosomes.length + 1) / 2;
     let cumulative = 0.0;
-    const rand = Math.random() * sum;
+    const rand     = Math.random() * sum;
     for (let index = 0; index < chromosomes.length; index++) {
       cumulative += chromosomes.length - index;
       if (cumulative >= rand) {

@@ -13,7 +13,7 @@ export interface IIsland {
   mutationProbability: number;
   reinsertion: IReinsertion;
 
-  reset(): Promise<void>;
+  reset(): void;
 
-  step(): Promise<void>;
+  step(): void;
 }

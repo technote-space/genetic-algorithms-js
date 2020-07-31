@@ -10,5 +10,5 @@ export interface IMigration {
 
   getDestinations(algorithm: IAlgorithm): Array<number>;
 
-  migrate(algorithm: IAlgorithm): Promise<void>;
+  migrate(algorithm: IAlgorithm): void;
 }
