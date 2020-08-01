@@ -29,11 +29,7 @@ export abstract class IslandBase implements IIsland {
 
   abstract get crossover(): ICrossover;
 
-  abstract get crossoverProbability(): number;
-
   abstract get mutation(): IMutation;
-
-  abstract get mutationProbability(): number;
 
   abstract get reinsertion(): IReinsertion;
 
@@ -54,7 +50,7 @@ export abstract class IslandBase implements IIsland {
 
   protected performMutate(chromosomes: Array<IChromosome>): void {
     chromosomes.forEach((chromosome): void => {
-      this.mutation.mutate(chromosome, this.mutationProbability);
+      this.mutation.mutate(chromosome);
     });
   }
 
@@ -70,7 +66,7 @@ export abstract class IslandBase implements IIsland {
     }
 
     const {parents, population} = this.selection.select(this.population.chromosomes);
-    const offspring             = this.crossover.cross(parents, this.crossoverProbability);
+    const offspring             = this.crossover.cross(parents);
     this.performMutate(offspring);
     this.performEvaluate(offspring);
     this.performEvaluate(parents);
