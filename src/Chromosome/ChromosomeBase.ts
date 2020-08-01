@@ -30,6 +30,16 @@ export abstract class ChromosomeBase implements IChromosome {
     this.acids[index] = acid;
   }
 
+  public deleteAcid(index: number): void {
+    // eslint-disable-next-line no-magic-numbers
+    this.acids.splice(index, 1);
+  }
+
+  public insertAcid(index: number, acid: Acid): void {
+    // eslint-disable-next-line no-magic-numbers
+    this.acids.splice(index, 0, acid);
+  }
+
   public abstract generateAcid(index: number): Acid;
 
   public generateAcids(): void {
@@ -58,7 +68,7 @@ export abstract class ChromosomeBase implements IChromosome {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected performCopyFrom(from: IChromosome): void {
+  protected performCopyFrom(_from: IChromosome): void {
     // override if required
   }
 

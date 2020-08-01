@@ -11,6 +11,10 @@ export interface IChromosome {
 
   setAcid(index: number, acid: Acid): void;
 
+  deleteAcid(index: number): void;
+
+  insertAcid(index: number, acid: Acid): void;
+
   generateAcid(index: number): Acid;
 
   generateAcids(): void;
