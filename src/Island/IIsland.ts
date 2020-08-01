@@ -8,9 +8,7 @@ export interface IIsland {
   fitness: IFitness;
   selection: ISelection;
   crossover: ICrossover;
-  crossoverProbability: number;
   mutation: IMutation;
-  mutationProbability: number;
   reinsertion: IReinsertion;
 
   reset(): void;
