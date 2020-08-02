@@ -3,9 +3,9 @@ import {Acid, IChromosome} from '..';
 export abstract class ChromosomeBase implements IChromosome {
   private acids: Array<Acid>;
 
-  protected constructor(_length: number) {
+  protected constructor(_length: number, skipLengthCheck = false) {
     // eslint-disable-next-line no-magic-numbers
-    if (_length < 1) {
+    if (!skipLengthCheck && _length < 1) {
       throw new Error('Too short.');
     }
 
