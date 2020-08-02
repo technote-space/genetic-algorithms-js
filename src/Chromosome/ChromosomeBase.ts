@@ -3,9 +3,9 @@ import {Acid, IChromosome} from '..';
 export abstract class ChromosomeBase implements IChromosome {
   private acids: Array<Acid>;
 
-  protected constructor(_length: number) {
+  protected constructor(_length: number, skipLengthCheck = false) {
     // eslint-disable-next-line no-magic-numbers
-    if (_length < 1) {
+    if (!skipLengthCheck && _length < 1) {
       throw new Error('Too short.');
     }
 
@@ -56,11 +56,11 @@ export abstract class ChromosomeBase implements IChromosome {
 
   public copyFrom(from: ChromosomeBase): void {
     if (from.length !== this.length) {
-      throw new Error('Length is not same.');
+      this.acids = new Array<Acid>(from.length);
     }
 
     // eslint-disable-next-line no-magic-numbers
-    for (let index = this.length; --index >= 0;) {
+    for (let index = from.length; --index >= 0;) {
       this.acids[index] = from.getAcid(index);
     }
 
