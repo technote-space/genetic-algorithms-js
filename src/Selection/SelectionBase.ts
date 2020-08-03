@@ -15,7 +15,6 @@ export abstract class SelectionBase implements ISelection {
     const rand     = Math.random() * sum;
     for (let index = 0; index < chromosomes.length; index++) {
       const chromosome = chromosomes[index];
-      // eslint-disable-next-line no-magic-numbers
       cumulative += chromosome.fitness;
       if (cumulative >= rand) {
         // eslint-disable-next-line no-magic-numbers
