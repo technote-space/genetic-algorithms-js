@@ -3,7 +3,6 @@ import {IAlgorithm, IChromosome, ITermination, IIsland, IMigration} from '..';
 export abstract class AlgorithmBase implements IAlgorithm {
   private _chromosomes: Array<IChromosome> = [];
   private _fitness: number;
-  private _best: IChromosome | undefined;
 
   protected constructor(protected readonly _bestChanged: undefined | (() => void) = undefined) {
     this._fitness = 0;
@@ -36,11 +35,7 @@ export abstract class AlgorithmBase implements IAlgorithm {
   abstract get termination(): ITermination;
 
   get best(): IChromosome {
-    if (!this._best) {
-      return this._chromosomes[0];
-    }
-
-    return this._best;
+    return this._chromosomes[0];
   }
 
   get progress(): number {
@@ -51,10 +46,18 @@ export abstract class AlgorithmBase implements IAlgorithm {
     return this.termination.hasReached(this);
   }
 
+  private resetChromosomes(): void {
+    this._chromosomes.length = 0;
+    this.islands.forEach(island => {
+      island.population.chromosomes.forEach(chromosome => {
+        this._chromosomes.push(chromosome);
+      });
+    });
+  }
+
   protected updateChromosomes(): void {
-    this._chromosomes = this.islands.flatMap(island => island.population.chromosomes).sort((c1, c2) => c2.fitness - c1.fitness);
+    this._chromosomes.sort((c1, c2) => c2.fitness - c1.fitness);
     if (this._chromosomes.length) {
-      this._best        = this._chromosomes[0].clone();
       const bestFitness = this._chromosomes[0].fitness;
       // eslint-disable-next-line no-magic-numbers
       if (bestFitness >= 0 && bestFitness !== this._fitness) {
@@ -68,6 +71,7 @@ export abstract class AlgorithmBase implements IAlgorithm {
 
   public reset(): void {
     this.islands.forEach(island => island.reset());
+    this.resetChromosomes();
     this.migration?.init();
     this.termination.init();
     this.updateChromosomes();
