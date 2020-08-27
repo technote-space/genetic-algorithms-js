@@ -34,6 +34,7 @@ export abstract class IslandBase implements IIsland {
   abstract get reinsertion(): IReinsertion;
 
   public reset(): void {
+    this._initialized = false;
     this.population.init();
     this.population.chromosomes.forEach((chromosome): void => {
       this.fitness.evaluate(chromosome);
@@ -67,14 +68,21 @@ export abstract class IslandBase implements IIsland {
 
     const {parents, population} = this.selection.select(this.population.chromosomes);
     const offspring             = this.crossover.cross(parents);
-    this.performMutate(offspring);
-    this.performEvaluate(offspring);
-    this.performEvaluate(parents);
+    const offspringCount        = offspring.length;
 
-    const newGeneration = this.reinsertion.select(population, offspring, parents, this.population.size);
+    this.performMutate(offspring);
+
+    const evaluateTargets: Array<IChromosome> = [...offspring];
+    parents.forEach(parent => {
+      evaluateTargets.push(parent);
+    });
+    this.performEvaluate(evaluateTargets);
+
+    const newGeneration = this.reinsertion.select(population, offspring, parents);
     this.population.update(newGeneration);
+
     this._generationNumber++;
-    this._offspringNumber += offspring.length;
+    this._offspringNumber += offspringCount;
     this.performStep();
   }
 
