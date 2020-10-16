@@ -45,6 +45,6 @@
     "test": "yarn lint",
     "lint": "eslint 'src/**/*.ts' --cache",
     "lint:fix": "eslint --fix 'src/**/*.ts'",
-    "update": "ncu -u && yarn install && yarn upgrade && yarn audit"
+    "update": "npx npm-check-updates -u && yarn install && yarn upgrade && yarn audit"
   }
 }
