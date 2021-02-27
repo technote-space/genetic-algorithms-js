@@ -35,14 +35,14 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.15.1",
-    "@typescript-eslint/parser": "^4.15.1",
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.15.2",
+    "@typescript-eslint/parser": "^4.15.2",
     "eslint": "^7.20.0",
-    "husky": "^5.0.9",
+    "husky": "^5.1.1",
     "lint-staged": "^10.5.4",
-    "typescript": "^4.1.5"
+    "typescript": "^4.2.2"
   },
   "publishConfig": {
     "access": "public"
